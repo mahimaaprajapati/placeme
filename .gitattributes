@@ -1,0 +1,11 @@
+# Specify languages for key file types
+*.html linguist-language=HTML
+*.css linguist-language=CSS
+*.js linguist-language=JavaScript
+*.json linguist-language=JSON
+*.md linguist-language=Markdown
+
+# Exclude vendor or generated files
+/node_modules/* linguist-vendored
+/dist/* linguist-vendored
+/build/* linguist-vendored
