@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login / Sign Up | Placement Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f8f9fa;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #666;
+        }
+
+        .tab.active {
+            background: #2c3e50;
+            color: white;
+        }
+
+        .form-container {
+            padding: 30px;
+        }
+
+        .role-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 12px;
+        }
+
+        .role-option {
+            flex: 1;
+            padding: 12px 8px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .role-option i {
+            display: block;
+            font-size: 20px;
+            margin-bottom: 5px;
+            color: #666;
+        }
+
+        .role-option.active {
+            background: #2c3e50;
+            color: white;
+        }
+
+        .role-option.active i {
+            color: white;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            border-color: #2c3e50;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: #34495e;
+            transform: translateY(-1px);
+        }
+
+        .google-btn {
+            width: 100%;
+            padding: 12px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .google-btn:hover {
+            background: #f8f9fa;
+            border-color: #d0d0d0;
+        }
+
+        .google-btn img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 20px 0;
+            color: #666;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .divider span {
+            padding: 0 10px;
+            font-size: 14px;
+        }
+
+        .toggle-form {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .toggle-form a {
+            color: #2c3e50;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .success-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                border-radius: 0;
+            }
+            
+            .role-selector {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="tabs">
+            <div class="tab active" data-tab="login">Login</div>
+            <div class="tab" data-tab="signup">Sign Up</div>
+        </div>
+        <div class="form-container">
+            <div class="role-selector">
+                <div class="role-option active" data-role="student">
+                    <i class="fas fa-user-graduate"></i>
+                    <span>Student</span>
+                </div>
+                <div class="role-option" data-role="recruiter">
+                    <i class="fas fa-user-tie"></i>
+                    <span>Recruiter</span>
+                </div>
+                <div class="role-option" data-role="company">
+                    <i class="fas fa-building"></i>
+                    <span>Company</span>
+                </div>
+            </div>
+            <form id="authForm">
+                <div class="input-group signup-field">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" placeholder="Enter your full name">
+                    <div class="error-message">Please enter your full name</div>
+                </div>
+                <div class="input-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="Enter your email">
+                    <div class="error-message">Please enter a valid email address</div>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password">
+                    <div class="error-message">Password must be at least 6 characters</div>
+                </div>
+                <div class="input-group signup-field">
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" id="confirm-password" placeholder="Confirm your password">
+                    <div class="error-message">Passwords do not match</div>
+                </div>
+                <button type="submit" class="submit-btn">Login</button>
+                <div class="divider">
+                    <span>or continue with</span>
+                </div>
+                <button type="button" class="google-btn">
+                    <img src="data:image/jpeg;base64,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" alt="Google logo">
+                    <span>Continue with Google</span>
+                </button>
+            </form>
+            <div class="toggle-form">
+                <span class="toggle-text">Don't have an account?</span>
+                <a href="#" class="toggle-link">Sign Up</a>
+            </div>
+        </div>
+    </div>
+    <div class="success-message">Successfully logged in!</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.tab');
+            const roleOptions = document.querySelectorAll('.role-option');
+            const form = document.getElementById('authForm');
+            const toggleLink = document.querySelector('.toggle-link');
+            const toggleText = document.querySelector('.toggle-text');
+            const submitBtn = document.querySelector('.submit-btn');
+            const signupFields = document.querySelectorAll('.signup-field');
+            let isLoginMode = true;
+
+            // Tab switching
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    isLoginMode = tab.dataset.tab === 'login';
+                    updateFormMode();
+                });
+            });
+
+            // Role selection
+            roleOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    roleOptions.forEach(opt => opt.classList.remove('active'));
+                    option.classList.add('active');
+                });
+            });
+
+            // Toggle between login and signup
+            toggleLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                isLoginMode = !isLoginMode;
+                tabs.forEach(tab => {
+                    tab.classList.toggle('active');
+                });
+                updateFormMode();
+            });
+
+            // Form submission
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (validateForm()) {
+                    const successMessage = document.querySelector('.success-message');
+                    successMessage.style.display = 'block';
+                    successMessage.textContent = `Successfully ${isLoginMode ? 'logged in' : 'signed up'}!`;
+                    setTimeout(() => {
+                        successMessage.style.display = 'none';
+                    }, 3000);
+                }
+            });
+
+            // Google sign in
+            document.querySelector('.google-btn').addEventListener('click', () => {
+                // Implement Google Sign In logic here
+                console.log('Google sign in clicked');
+            });
+
+            function updateFormMode() {
+                signupFields.forEach(field => {
+                    field.style.display = isLoginMode ? 'none' : 'block';
+                });
+                submitBtn.textContent = isLoginMode ? 'Login' : 'Sign Up';
+                toggleLink.textContent = isLoginMode ? 'Sign Up' : 'Login';
+                toggleText.textContent = isLoginMode ? 
+                    "Don't have an account?" : 
+                    "Already have an account?";
+            }
+
+            function validateForm() {
+                let isValid = true;
+                const email = document.getElementById('email');
+                const password = document.getElementById('password');
+
+                // Reset error messages
+                document.querySelectorAll('.error-message').forEach(error => {
+                    error.style.display = 'none';
+                });
+
+                // Email validation
+                if (!email.value || !email.value.includes('@')) {
+                    email.nextElementSibling.style.display = 'block';
+                    isValid = false;
+                }
+
+                // Password validation
+                if (password.value.length < 6) {
+                    password.nextElementSibling.style.display = 'block';
+                    isValid = false;
+                }
+
+                // Additional signup validations
+                if (!isLoginMode) {
+                    const name = document.getElementById('name');
+                    const confirmPassword = document.getElementById('confirm-password');
+
+                    if (!name.value.trim()) {
+                        name.nextElementSibling.style.display = 'block';
+                        isValid = false;
+                    }
+
+                    if (password.value !== confirmPassword.value) {
+                        confirmPassword.nextElementSibling.style.display = 'block';
+                        isValid = false;
+                    }
+                }
+
+                return isValid;
+            }
+
+            // Initialize form state
+            updateFormMode();
+        });
+    </script>
+</body>
+</html>

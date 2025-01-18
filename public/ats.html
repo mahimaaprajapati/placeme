@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Tracking System</title>
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+header {
+    background-color: #2c3e50;
+    color: white;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    margin-bottom: 15px;
+}
+
+.header-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    padding: 8px 16px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn:hover {
+    background-color: #2980b9;
+}
+
+main {
+    padding: 20px;
+}
+
+main h2 {
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+.applications-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.application-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.application-card h3 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.application-card p {
+    margin-bottom: 8px;
+    color: #666;
+}
+
+.status {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    color: white;
+    font-size: 12px;
+}
+
+.status.rejected {
+    background-color: #e74c3c;
+}
+
+.status.under-review {
+    background-color: #f1c40f;
+}
+
+.status.accepted {
+    background-color: #2ecc71;
+}
+
+.status.pending {
+    background-color: #95a5a6;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 500px;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+#applicationForm {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#applicationForm input,
+#applicationForm select,
+#applicationForm textarea {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#applicationForm textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+.submit-btn {
+    margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+    .applications-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 10% auto;
+    }
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Application Tracking System</h1>
+            <div class="header-buttons">
+                <button id="newApplicationBtn" class="btn">New Application</button>
+                <button id="viewApplicationsBtn" class="btn">View Applications</button>
+            </div>
+        </header>
+
+        <!-- New Application Form Modal -->
+        <div id="applicationModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>New Application</h2>
+                <form id="applicationForm">
+                    <input type="text" id="company" placeholder="Company Name" required>
+                    <input type="text" id="position" placeholder="Position" required>
+                    <input type="datetime-local" id="dateApplied" required>
+                    <select id="status" required>
+                        <option value="UNDER REVIEW">Under Review</option>
+                        <option value="REJECTED">Rejected</option>
+                        <option value="ACCEPTED">Accepted</option>
+                        <option value="PENDING">Pending</option>
+                    </select>
+                    <textarea id="notes" placeholder="Notes"></textarea>
+                    <button type="submit" class="btn submit-btn">Submit Application</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main>
+            <h2>Your Applications</h2>
+            <div id="applicationsContainer" class="applications-grid"></div>
+        </main>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+    // DOM Elements
+    const modal = document.getElementById('applicationModal');
+    const newApplicationBtn = document.getElementById('newApplicationBtn');
+    const closeBtn = document.querySelector('.close');
+    const applicationForm = document.getElementById('applicationForm');
+    const applicationsContainer = document.getElementById('applicationsContainer');
+
+    // Sample Data
+    let applications = [
+        {
+            company: 'Capgemini',
+            position: 'Data Analyst',
+            dateApplied: '2024-12-22T05:30',
+            status: 'REJECTED',
+            notes: 'hi i am a new applicant applied for the job',
+            lastUpdated: '2024-11-29T01:09'
+        },
+        {
+            company: 'Wipro',
+            position: 'Data Analyst',
+            dateApplied: '2025-06-22T05:30',
+            status: 'UNDER REVIEW',
+            notes: "hi i'm new applicant highly skilled",
+            lastUpdated: '2024-11-29T01:10'
+        }
+    ];
+
+    // Load applications from localStorage
+    const loadApplications = () => {
+        const savedApplications = localStorage.getItem('applications');
+        if (savedApplications) {
+            applications = JSON.parse(savedApplications);
+        }
+        displayApplications();
+    };
+
+    // Save applications to localStorage
+    const saveApplications = () => {
+        localStorage.setItem('applications', JSON.stringify(applications));
+    };
+
+    // Display applications
+    const displayApplications = () => {
+        applicationsContainer.innerHTML = '';
+        applications.forEach(app => {
+            const card = document.createElement('div');
+            card.className = 'application-card';
+            
+            const statusClass = app.status.toLowerCase().replace(' ', '-');
+            
+            card.innerHTML = `
+                <h3>${app.company}</h3>
+                <p><strong>Position:</strong> ${app.position}</p>
+                <p><strong>Date Applied:</strong> ${formatDate(app.dateApplied)}</p>
+                <p><strong>Status:</strong> <span class="status ${statusClass}">${app.status}</span></p>
+                <p><strong>Notes:</strong> ${app.notes}</p>
+                <p><strong>Last Updated:</strong> ${formatDate(app.lastUpdated)}</p>
+            `;
+            
+            applicationsContainer.appendChild(card);
+        });
+    };
+
+    // Format date
+    const formatDate = (dateString) => {
+        const options = {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        };
+        return new Date(dateString).toLocaleString('en-US', options);
+    };
+
+    // Event Listeners
+    newApplicationBtn.addEventListener('click', () => {
+        modal.style.display = 'block';
+    });
+
+    closeBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+
+    applicationForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const newApplication = {
+            company: document.getElementById('company').value,
+            position: document.getElementById('position').value,
+            dateApplied: document.getElementById('dateApplied').value,
+            status: document.getElementById('status').value,
+            notes: document.getElementById('notes').value,
+            lastUpdated: new Date().toISOString()
+        };
+
+        applications.unshift(newApplication);
+        saveApplications();
+        displayApplications();
+        
+        applicationForm.reset();
+        modal.style.display = 'none';
+    });
+
+    // Initialize
+    loadApplications();
+});
+
+
+    </script>
+</body>
+</html>

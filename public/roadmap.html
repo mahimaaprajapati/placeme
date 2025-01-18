@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Software Developer Roadmap</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 1.2rem;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+
+    .card {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .icon {
+      background-color: #e0f7fa;
+      padding: 10px;
+      border-radius: 50%;
+    }
+
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .card-description {
+      margin-bottom: 15px;
+    }
+
+    .list {
+      list-style: disc;
+      margin-left: 20px;
+    }
+
+    .list a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .list a:hover {
+      text-decoration: underline;
+    }
+
+    .button {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      text-align: center;
+      cursor: pointer;
+      margin-top: auto;
+    }
+
+    .button:hover {
+      background-color: #0056b3;
+    }
+
+    .additional-resources {
+      margin-top: 30px;
+    }
+
+    .additional-resources ul {
+      list-style: disc;
+      margin-left: 20px;
+    }
+
+    .additional-resources a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .additional-resources a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Software Developer Roadmap</h1>
+    <p>Essential skills for securing a good job in the software industry</p>
+
+    <div class="grid" id="roadmap-steps">
+      <!-- Cards will be populated here dynamically -->
+    </div>
+
+    <div class="additional-resources">
+      <h2>Additional Resources</h2>
+      <ul>
+        <li><a href="https://www.freecodecamp.org/news/tag/software-development/" target="_blank">freeCodeCamp Software Development Articles</a></li>
+        <li><a href="https://www.freecodecamp.org/news/tag/web-development/" target="_blank">freeCodeCamp Web Development Articles</a></li>
+        <li><a href="https://www.freecodecamp.org/news/tag/programming/" target="_blank">freeCodeCamp Programming Articles</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    const roadmapSteps = [
+      {
+        title: 'Foundations of Programming',
+        icon: '💻',
+        description: 'Master the basics of programming and web technologies',
+        courses: [
+          { name: 'JavaScript Algorithms and Data Structures', url: 'https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/' },
+          { name: 'Responsive Web Design', url: 'https://www.freecodecamp.org/learn/responsive-web-design/' }
+        ],
+        assessment: 'Complete coding challenges and projects in the freeCodeCamp curriculum'
+      },
+      {
+        title: 'Front-end Development',
+        icon: '🌐',
+        description: 'Learn to create interactive and responsive user interfaces',
+        courses: [
+          { name: 'Front End Development Libraries', url: 'https://www.freecodecamp.org/learn/front-end-development-libraries/' }
+        ],
+        assessment: 'Build a responsive web application using React'
+      },
+      {
+        title: 'Back-end Development',
+        icon: '🗄️',
+        description: 'Develop server-side applications and APIs',
+        courses: [
+          { name: 'Back End Development and APIs', url: 'https://www.freecodecamp.org/learn/back-end-development-and-apis/' }
+        ],
+        assessment: 'Create a full-stack application with a RESTful API'
+      },
+      {
+        title: 'DevOps and Cloud Computing',
+        icon: '☁️',
+        description: 'Learn to deploy and manage applications in the cloud',
+        courses: [],
+        assessment: 'Deploy a web application to a cloud platform'
+      },
+      {
+        title: 'Data Structures and Algorithms',
+        icon: '🧠',
+        description: 'Master problem-solving and optimization techniques',
+        courses: [
+          { name: 'Coding Interview Prep', url: 'https://www.freecodecamp.org/learn/coding-interview-prep/' }
+        ],
+        assessment: 'Solve algorithmic problems on platforms like LeetCode or HackerRank'
+      },
+      {
+        title: 'Software Design and Architecture',
+        icon: '⚙️',
+        description: 'Learn to design scalable and maintainable software systems',
+        courses: [],
+        assessment: 'Design and implement a scalable system architecture'
+      },
+      {
+        title: 'Soft Skills and Professional Development',
+        icon: '👥',
+        description: 'Develop essential non-technical skills for career success',
+        courses: [],
+        assessment: 'Participate in mock interviews and group projects'
+      }
+    ];
+
+    const roadmapContainer = document.getElementById('roadmap-steps');
+
+    roadmapSteps.forEach(step => {
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      card.innerHTML = `
+        <div class="card-header">
+          <div class="icon">${step.icon}</div>
+          <div class="card-title">${step.title}</div>
+        </div>
+        <div class="card-description">${step.description}</div>
+        ${step.courses.length > 0 ? `
+          <div>
+            <h4>Recommended Courses:</h4>
+            <ul class="list">
+              ${step.courses.map(course => `<li><a href="${course.url}" target="_blank">${course.name}</a></li>`).join('')}
+            </ul>
+          </div>
+        ` : ''}
+        <div>
+          <h4>Assessment:</h4>
+          <p>${step.assessment}</p>
+        </div>
+        <button class="button">Start Learning</button>
+      `;
+
+      roadmapContainer.appendChild(card);
+    });
+  </script>
+</body>
+</html>

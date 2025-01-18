@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login and Signup</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      padding: 20px;
+    }
+    .container {
+      max-width: 400px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .link {
+      text-align: center;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="loginContainer">
+    <h1>Login</h1>
+    <label for="loginEmail">Email</label>
+    <input type="email" id="loginEmail" placeholder="Enter your email">
+    <label for="loginPassword">Password</label>
+    <input type="password" id="loginPassword" placeholder="Enter your password">
+    <button onclick="login()">Login</button>
+    <div class="link">
+      <a href="#" onclick="showSignup()">Don't have an account? Signup</a>
+    </div>
+  </div>
+
+  <div class="container" id="signupContainer" style="display: none;">
+    <h1>Signup</h1>
+    <label for="signupName">Name</label>
+    <input type="text" id="signupName" placeholder="Enter your name" required>
+  
+    <label for="signupEmail">Email</label>
+    <input type="email" id="signupEmail" placeholder="Enter your email" required>
+  
+    <label for="signupPassword">Password</label>
+    <input type="password" id="signupPassword" placeholder="Enter your password" required>
+  
+    <label for="signupRollNo">Roll No</label>
+    <input type="text" id="signupRollNo" placeholder="Enter your roll number" required>
+  
+    <label for="signupCgpa">CGPA</label>
+    <input type="number" id="signupCgpa" placeholder="Enter your CGPA" required>
+  
+    <label for="signupContactNo">Contact No</label>
+    <input type="text" id="signupContactNo" placeholder="Enter your contact number">
+  
+    <label for="signupCourse">Course</label>
+    <input type="text" id="signupCourse" placeholder="Enter your course name">
+  
+    <label for="signupDepartment">Department</label>
+    <input type="text" id="signupDepartment" placeholder="Enter your department name">
+  
+    <label for="signupGraduationYear">Graduation Year</label>
+    <input type="number" id="signupGraduationYear" placeholder="Enter your graduation year">
+  
+    <label for="signupCollege">College</label>
+    <input type="text" id="signupCollege" placeholder="Enter your college name" required>
+  
+    <button onclick="signup()">Signup</button>
+  
+    <div class="link">
+      <a href="#" onclick="showLogin()">Already have an account? Login</a>
+    </div>
+  </div>
+  
+
+  <script>
+    const API_BASE = "http://localhost:5000";
+
+    function showSignup() {
+      document.getElementById("loginContainer").style.display = "none";
+      document.getElementById("signupContainer").style.display = "block";
+    }
+
+    function showLogin() {
+      document.getElementById("signupContainer").style.display = "none";
+      document.getElementById("loginContainer").style.display = "block";
+    }
+
+    async function login() {
+      const email = document.getElementById("loginEmail").value;
+      const password = document.getElementById("loginPassword").value;
+
+      const response = await fetch(`${API_BASE}/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+      alert(data.message);
+
+      if (response.ok) {
+        localStorage.setItem("token", data.token);
+        window.location.href = "admin.html";
+      }
+    }
+
+    async function signup() {
+  const name = document.getElementById("signupName").value;
+  const email = document.getElementById("signupEmail").value;
+  const password = document.getElementById("signupPassword").value;
+  const rollNo = document.getElementById("signupRollNo").value;
+  const cgpa = document.getElementById("signupCgpa").value;
+  const contactNo = document.getElementById("signupContactNo").value;
+  const course = document.getElementById("signupCourse").value;
+  const department = document.getElementById("signupDepartment").value;
+  const graduationYear = document.getElementById("signupGraduationYear").value;
+  const college = document.getElementById("signupCollege").value;
+
+  const response = await fetch(`${API_BASE}/signup`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      name, 
+      email, 
+      password, 
+      rollNo, 
+      cgpa, 
+      contactNo, 
+      course, 
+      department, 
+      graduationYear, 
+      college
+    }),
+  });
+
+  const data = await response.json();
+  alert(data.message);
+
+  if (response.ok) showLogin();
+}
+
+
+
+  </script>
+</body>
+</html>

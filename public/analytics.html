@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Placement Analytics Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+        }
+
+        .header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem 2rem;
+        }
+
+        .nav-tabs {
+            background-color: #34495e;
+            padding: 0.5rem 2rem;
+        }
+
+        .tab-button {
+            background: none;
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            margin-right: 1rem;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .tab-button.active {
+            background-color: #3498db;
+            border-radius: 4px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .stat-card h3 {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .table-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            color: #2c3e50;
+        }
+
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        @media (min-width: 768px) {
+            .charts-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>Placement Analytics Dashboard</h1>
+    </header>
+
+    <nav class="nav-tabs">
+        <button class="tab-button active">Overview</button>
+        <button class="tab-button">Students</button>
+        <button class="tab-button">Companies</button>
+        <button class="tab-button">Trends</button>
+    </nav>
+
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Total Students</h3>
+                <div class="value">500</div>
+            </div>
+            <div class="stat-card">
+                <h3>Placed Students</h3>
+                <div class="value">450</div>
+            </div>
+            <div class="stat-card">
+                <h3>Average Package</h3>
+                <div class="value">8.5 LPA</div>
+            </div>
+            <div class="stat-card">
+                <h3>Highest Package</h3>
+                <div class="value">25 LPA</div>
+            </div>
+        </div>
+
+        <div class="charts-grid">
+            <div class="chart-container">
+                <canvas id="placementChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="cgpaChart"></canvas>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <h2>Top Performers</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>CGPA</th>
+                        <th>Company</th>
+                        <th>Package (LPA)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>John Doe</td>
+                        <td>9.8</td>
+                        <td>Tech Giants Inc.</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <td>Jane Smith</td>
+                        <td>9.7</td>
+                        <td>Innovate Solutions</td>
+                        <td>22</td>
+                    </tr>
+                    <tr>
+                        <td>Bob Johnson</td>
+                        <td>9.5</td>
+                        <td>Future Systems</td>
+                        <td>20</td>
+                    </tr>
+                    <tr>
+                        <td>Alice Brown</td>
+                        <td>9.4</td>
+                        <td>Global Software</td>
+                        <td>18</td>
+                    </tr>
+                    <tr>
+                        <td>Charlie Davis</td>
+                        <td>9.3</td>
+                        <td>Data Dynamics</td>
+                        <td>17</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Placement Overview Chart
+        const placementCtx = document.getElementById('placementChart').getContext('2d');
+        new Chart(placementCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Placed', 'Not Placed'],
+                datasets: [{
+                    data: [450, 50],
+                    backgroundColor: [
+                        '#2ecc71',
+                        '#e74c3c'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Placement Overview'
+                    }
+                }
+            }
+        });
+
+        // CGPA Distribution Chart
+        const cgpaCtx = document.getElementById('cgpaChart').getContext('2d');
+        new Chart(cgpaCtx, {
+            type: 'bar',
+            data: {
+                labels: ['6-7', '7-8', '8-9', '9-10'],
+                datasets: [{
+                    label: 'Number of Students',
+                    data: [100, 150, 120, 80],
+                    backgroundColor: '#3498db'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Student Performance Distribution (CGPA)'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Tab switching functionality
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

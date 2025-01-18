@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Rescheduling</title>
+    <style>
+        :root {
+    --primary-color: #2c3e50;
+    --secondary-color: #2e8b57;
+    --background-color: #f4f4f9;
+    --text-color: #333;
+    --error-color: #ff0000;
+    --success-color: #28a745;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+h1 {
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+input[type="file"] {
+    border: none;
+    padding: 10px 0;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: var(--secondary-color);
+}
+
+button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.message {
+    text-align: center;
+    margin-top: 20px;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.error {
+    background-color: #ffe6e6;
+    color: var(--error-color);
+}
+
+.success {
+    background-color: #d4edda;
+    color: var(--success-color);
+}
+
+@media (max-width: 768px) {
+    .form-container {
+        padding: 20px;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Interview Rescheduling Form</h1>
+        <form id="rescheduleForm">
+            <div class="form-group">
+                <label for="email">Recipient Email:</label>
+                <input type="email" id="email" placeholder="Enter recipient's email" required>
+            </div>
+            <div class="form-group">
+                <label for="reason">Reason for Rescheduling:</label>
+                <textarea id="reason" rows="4" placeholder="State your reason for rescheduling" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="date">Preferred Date:</label>
+                <input type="date" id="date" required>
+            </div>
+            <div class="form-group">
+                <label for="time">Preferred Time:</label>
+                <input type="time" id="time" required>
+            </div>
+            <div class="form-group">
+                <label for="datesheet">Attach Datesheet (Optional):</label>
+                <input type="file" id="datesheet" accept="image/*">
+            </div>
+            <button type="submit" id="sendMail">Send Email</button>
+        </form>
+        <p class="message" id="message"></p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script>
+        (function() {
+    // Initialize EmailJS with your user ID
+    emailjs.init("0iNQtq1n2t0V0kaVP");
+
+    const form = document.getElementById('rescheduleForm');
+    const messageElement = document.getElementById('message');
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const submitButton = document.getElementById('sendMail');
+        submitButton.disabled = true;
+        submitButton.textContent = 'Sending...';
+
+    const templateParams = {
+        to_name: document.getElementById('email').value,
+        message: document.getElementById('reason').value, // Assuming this is a file input
+    };
+
+
+
+        // Send the email using EmailJS
+        console.log('Template Params:', templateParams);
+        emailjs.send('service_cbgxs0m', 'template_tyefvtj', templateParams)
+            .then(function(response) {
+                console.log('SUCCESS!', response.status, response.text);
+                showMessage('Email sent successfully!', 'success');
+                form.reset();
+            }, function(error) {
+                console.log('FAILED...', error);
+                showMessage('Failed to send email. Please try again.', 'error');
+            })
+            .finally(function() {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Send Email';
+            });
+    });
+
+    function showMessage(text, type) {
+        messageElement.textContent = text;
+        messageElement.className = `message ${type}`;
+    }
+
+    // Handle file upload
+    let base64String = "";
+datesheetInput.addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            base64String = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+// Include the base64String in templateParams
+const templateParams = {
+    to_name: document.getElementById('email').value,
+    message: document.getElementById('reason').value,
+    
+    datesheet: base64String
+};
+
+})();
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlaceMe - Your Gateway to Success</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    color: #ffffff;
+    background-color: #000000;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Neon Canvas */
+#neonCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.content {
+    position: relative;
+    z-index: 1;
+}
+
+/* Header styles */
+header {
+    background-color: rgba(0, 0, 0, 0.8);
+    box-shadow: 0 2px 4px rgba(178, 181, 224, 0.5);
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.logo-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #eef1f4;
+}
+
+nav {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+nav a {
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+nav a:hover {
+    color: #3498db;
+}
+
+.icon-button, .menu-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    color: #ffffff;
+    transition: color 0.3s ease;
+}
+
+.icon-button:hover, .menu-button:hover {
+    color: #3498db;
+}
+
+.menu-button {
+    display: none;
+}
+
+/* Hero section styles */
+#hero {
+    height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+}
+
+.background-slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.background-slider img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1s ease-in;
+}
+
+.background-slider img.active {
+    opacity: 0.7;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.hero-content p {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.cta-button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #2980b9;
+}
+
+/* About section styles */
+#about {
+    padding: 6rem 0;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+#about h2, #features h2, #contact h2 {
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 2.5rem;
+    color: #e6e7ed;
+}
+
+.about-content {
+    display: flex;
+    gap: 4rem;
+    align-items: center;
+}
+
+.about-text, .about-images {
+    flex: 1;
+}
+
+.about-text p {
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+    color: #ffffff;
+}
+
+.about-images {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+.about-images img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Features section styles */
+#features {
+    padding: 6rem 0;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.feature-card {
+    background-color: rgba(215, 220, 250, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    padding: 2rem;
+    text-align: center;
+    text-decoration: none;
+    color: #ffffff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.feature-card i {
+    font-size: 2.5rem;
+    color: #eceeef;
+    margin-bottom: 1.5rem;
+}
+
+.feature-card h3 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.feature-card p {
+    color: #ffffff;
+}
+
+/* Contact section styles */
+#contact {
+    padding: 6rem 0;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.contact-form {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.contact-form input,
+.contact-form textarea {
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}
+
+.contact-form textarea {
+    height: 150px;
+    resize: vertical;
+}
+
+.submit-button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+    background-color: #2980b9;
+}
+
+/* Footer styles */
+footer {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 3rem 0;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+}
+
+.footer-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.footer-links a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #3498db;
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-links a {
+    color: #fff;
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+    color: #3498db;
+}
+
+.copyright {
+    text-align: center;
+    margin-top: 2rem;
+    color: #bdc3c7;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .menu-button {
+        display: block;
+    }
+
+    nav a, nav .icon-button {
+        display: none;
+    }
+
+    nav.active {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.9);
+        flex-direction: column;
+        padding: 1rem;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    nav.active a, nav.active .icon-button {
+        display: block;
+        margin: 0.5rem 0;
+    }
+
+    .about-content {
+        flex-direction: column;
+    }
+
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-content p {
+        font-size: 1.25rem;
+    }
+
+    #about h2, #features h2, #contact h2 {
+        font-size: 2rem;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        gap: 2rem;
+    }
+}
+
+/* Neon effect for text */
+.neon-text {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #3498db, 0 0 35px #3498db, 0 0 40px #3498db, 0 0 50px #3498db, 0 0 75px #3498db;
+}
+
+/* Glow effect for buttons and icons */
+.glow-effect {
+    box-shadow: 0 0 5px #3498db, 0 0 10px #3498db, 0 0 15px #3498db, 0 0 20px #3498db;
+    transition: box-shadow 0.3s ease;
+}
+
+.glow-effect:hover {
+    box-shadow: 0 0 10px #3498db, 0 0 20px #3498db, 0 0 30px #3498db, 0 0 40px #3498db;
+}
+
+     /* Chatbot Icon */
+  /* Chatbot Styles */
+  .chatbot-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #ffffff, #f8f8f9);
+    width: 80px; /* Reduced size */
+    height: 80px; /* Reduced size */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    z-index: 1000;
+    transition: transform 0.3s ease;
+}
+
+.chatbot-icon:hover {
+    transform: scale(1.1);
+}
+
+.chatbot-icon img {
+    width: 50px; /* Adjusted to fit the smaller icon */
+    height: 50px; /* Adjusted to fit the smaller icon */
+}
+
+
+.chatbot-icon:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+}
+
+.chatbot-box {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 350px;
+    height: 500px;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    display: none;
+    flex-direction: column;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.chatbot-header {
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    color: white;
+    padding: 15px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.chatbot-content {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.chat-message {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 80%;
+}
+
+.user-message {
+    background-color: #d5eaff;
+    color: #000;
+    align-self: flex-end;
+    margin-left: auto;
+}
+
+.bot-message {
+    background-color: #dddddd;
+    color: #101011;
+    align-self: flex-start;
+}
+
+.chatbot-input {
+    display: flex;
+    border-top: 1px solid #000;
+    padding: 10px;
+}
+
+.chatbot-input input {
+    flex: 1;
+    border: none;
+    padding: 10px;
+    border-radius: 20px;
+    outline: none;
+    background: #e2dffa;
+    margin-right: 10px;
+}
+
+.chatbot-input button {
+    background: #6a11cb;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.chatbot-input button:hover {
+    background: #2575fc;
+}
+
+</style>
+</head>
+<body>
+    <canvas id="neonCanvas"></canvas>
+    <div class="content">
+        <header>
+            <div class="container">
+                <div class="logo">
+                    <img src="logo.png" alt="PlaceMe Logo" class="logo-img">
+                    <span class="logo-text">PlaceMe</span>
+                </div>
+                <nav>
+                    <a href="#about">About</a>
+                    <a href="#features">Features</a>
+                    <a href="#contact">Contact</a>
+                    <button class="icon-button" aria-label="Notifications">
+                        <i data-lucide="bell"></i>
+                    </button>
+                    <a href="userdashboard.html">
+                        <button class="icon-button" aria-label="Profile">
+                            <i data-lucide="user"></i>
+                        </button>
+                    </a>
+                    
+                    <button class="menu-button" aria-label="Menu">
+                        <i data-lucide="menu"></i>
+                    </button>
+                </nav>
+            </div>
+        </header>
+
+        <main>
+            <section id="hero">
+                <div class="background-slider">
+                    <img src="office.jpg" alt="Professional office environment" class="active">
+                    <img src="college.webp" alt="Students in a career fair">
+                    <img src="employees.jpg" alt="Corporate recruitment process">
+                </div>
+                <div class="hero-content container">
+                    <h1>Elevate Your Career Prospects with PlaceMe</h1>
+                    <p>Streamlining the placement process for students, colleges, and recruiters</p>
+                    <a href="login2.html" class="cta-button">Get Started</a>
+
+                </div>
+            </section>
+
+            <section id="about">
+                <div class="container">
+                    <h2>About PlaceMe</h2>
+                    <div class="about-content">
+                        <div class="about-text">
+                            <p>PlaceMe is a comprehensive college placement cell software designed to revolutionize the recruitment process. We bridge the gap between ambitious students and leading employers, facilitating seamless connections and fostering career growth.</p>
+                            <p>Our platform offers a suite of powerful tools and features to support students, placement officers, and recruiters throughout the entire placement journey. From resume building to interview scheduling, we're committed to enhancing every step of the process.</p>
+                        </div>
+                        <div class="about-images">
+                            <img src="student.jpg" alt="Students preparing for interviews">
+                            <img src="interview.jpg" alt="Recruiters reviewing applications">
+                            <img src="present.jpg" alt="Modern campus facilities">
+                            <img src="graduation.jpg" alt="Successful placement celebration">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="features">
+                <div class="container">
+                    <h2>Our Features</h2>
+                    <div class="features-grid">
+                        <a href="sdms.html" class="feature-card">
+                            <i data-lucide="users"></i>
+                            <h3>Student Database</h3>
+                            <p>Comprehensive student profiles and tracking</p>
+                        </a>
+                        <a href="jobs.html" class="feature-card">
+                            <i data-lucide="briefcase"></i>
+                            <h3>Job Postings</h3>
+                            <p>Centralized job and internship listings</p>
+                        </a>
+                        <a href="ats.html" class="feature-card">
+                            <i data-lucide="bar-chart"></i>
+                            <h3>Application Tracking</h3>
+                            <p>Real-time application status monitoring</p>
+                        </a>
+                        <a href="interview.html" class="feature-card">
+                            <i data-lucide="calendar"></i>
+                            <h3>Interview Scheduling</h3>
+                            <p>Efficient interview coordination system</p>
+                        </a>
+                        <a href="notification.html" class="feature-card">
+                            <i data-lucide="message-square"></i>
+                            <h3>Communication</h3>
+                            <p>Integrated messaging and notification system</p>
+                        </a>
+                        <a href="analytics.html" class="feature-card">
+                            <i data-lucide="pie-chart"></i>
+                            <h3>Analytics</h3>
+                            <p>In-depth placement data and insights</p>
+                        </a>
+                        <a href="resume.html" class="feature-card">
+                            <i data-lucide="file-text"></i>
+                            <h3>Resume Development</h3>
+                            <p>Professional resume builder and templates</p>
+                        </a>
+                        <a href="crm.html" class="feature-card">
+                            <i data-lucide="building"></i>
+                            <h3>Company CRM</h3>
+                            <p>Streamlined employer relationship management</p>
+                        </a>
+                        <a href="assessment.html" class="feature-card">
+                            <i data-lucide="graduation-cap"></i>
+                            <h3>Online Assessments</h3>
+                            <p>Integrated skill assessment platform</p>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <section id="contact">
+                <div class="container">
+                    <h2>Contact Us</h2>
+                    <form class="contact-form">
+                        <input type="text" name="name" placeholder="Your Name" required>
+                        <input type="email" name="email" placeholder="Your Email" required>
+                        <textarea name="message" placeholder="Your Message" required></textarea>
+                        <button type="submit" class="submit-button">Send Message</button>
+                    </form>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-logo">
+                        <img src="logo.png" alt="PlaceMe Logo" class="logo-img">
+                        <span class="logo-text">PlaceMe</span>
+                    </div>
+                    <div class="footer-links">
+                        <a href="#about">About</a>
+                        <a href="#features">Features</a>
+                        <a href="#contact">Contact</a>
+                        <a href="/privacy">Privacy Policy</a>
+                        <a href="/terms">Terms of Service</a>
+                    </div>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i data-lucide="facebook"></i></a>
+                        <a href="#" aria-label="Twitter"><i data-lucide="twitter"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i data-lucide="linkedin"></i></a>
+                    </div>
+                </div>
+                <p class="copyright">&copy; Made with ❤️ by PlaceMe.</p>
+            </div>
+        </footer>
+    </div>
+ <!-- Chatbot Trigger -->
+<div class="chatbot-icon" onclick="toggleChatbot()">
+    <img src="placemate.jpg" alt="Chatbot Icon">
+</div>
+
+<!-- Chatbot UI -->
+<div class="chatbot-box" id="chatbotBox">
+    <div class="chatbot-header">
+        PlaceMe Assistant
+    </div>
+    <div class="chatbot-content" id="chatbotContent">
+        <div class="chat-message bot-message">
+            Hi there! 👋 I'm PlaceMate, your personal assistant. How can I help you today?
+        </div>
+    </div>
+    <div class="chatbot-input">
+        <input type="text" id="userInput" placeholder="Type your message..." onkeypress="handleKeyPress(event)">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize Lucide icons
+        lucide.createIcons();
+    
+        // Neon Lines Background
+        const canvas = document.getElementById('neonCanvas');
+        const ctx = canvas.getContext('2d');
+    
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    
+        class NeonLine {
+            constructor() {
+                this.reset();
+            }
+    
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.length = Math.random() * 200 + 100;
+                this.angle = Math.random() * Math.PI * 2;
+                this.speed = Math.random() * 1 + 0.5;
+                this.hue = Math.random() * 60 + 180;
+                this.thickness = Math.random() * 4 + 2;
+                this.opacity = Math.random() * 0.5 + 0.5;
+            }
+    
+            update() {
+                this.x += Math.cos(this.angle) * this.speed;
+                this.y += Math.sin(this.angle) * this.speed;
+    
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                    this.reset();
+                }
+            }
+    
+            draw() {
+                ctx.strokeStyle = `hsla(${this.hue}, 100%, 50%, ${this.opacity})`;
+                ctx.shadowColor = `hsla(${this.hue}, 100%, 50%, ${this.opacity})`;
+                ctx.shadowBlur = 20;
+                ctx.lineWidth = this.thickness;
+                ctx.lineCap = 'round';
+    
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(
+                    this.x + Math.cos(this.angle) * this.length,
+                    this.y + Math.sin(this.angle) * this.length
+                );
+                ctx.stroke();
+    
+                ctx.globalCompositeOperation = 'lighter';
+                ctx.strokeStyle = `hsla(${this.hue}, 100%, 80%, ${this.opacity * 0.5})`;
+                ctx.lineWidth = this.thickness * 2;
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(
+                    this.x + Math.cos(this.angle) * this.length,
+                    this.y + Math.sin(this.angle) * this.length
+                );
+                ctx.stroke();
+                ctx.globalCompositeOperation = 'source-over';
+            }
+        }
+    
+        const neonLines = [];
+        const lineCount = 30;
+    
+        for (let i = 0; i < lineCount; i++) {
+            neonLines.push(new NeonLine());
+        }
+    
+        function animateNeonLines() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+            neonLines.forEach(line => {
+                line.update();
+                line.draw();
+            });
+    
+            requestAnimationFrame(animateNeonLines);
+        }
+    
+        animateNeonLines();
+    
+        // Background image slider
+        const backgroundImages = document.querySelectorAll('.background-slider img');
+        let currentImageIndex = 0;
+    
+        function changeBackgroundImage() {
+            backgroundImages[currentImageIndex].classList.remove('active');
+            currentImageIndex = (currentImageIndex + 1) % backgroundImages.length;
+            backgroundImages[currentImageIndex].classList.add('active');
+        }
+    
+        setInterval(changeBackgroundImage, 5000);
+    
+        // Mobile menu toggle
+        const menuButton = document.querySelector('.menu-button');
+        const nav = document.querySelector('nav');
+    
+        menuButton.addEventListener('click', function() {
+            nav.classList.toggle('active');
+        });
+    
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+    
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    
+        // Form submission (you can replace this with your actual form submission logic)
+        const contactForm = document.querySelector('.contact-form');
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your message. We will get back to you soon!');
+            contactForm.reset();
+        });
+    
+        // Add scroll-based animations
+        const animateOnScroll = function() {
+            const elements = document.querySelectorAll('.animate-on-scroll');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                if (elementTop < windowHeight * 0.75) {
+                    element.classList.add('animated');
+                }
+            });
+        };
+    
+        window.addEventListener('scroll', animateOnScroll);
+        animateOnScroll(); // Run once on load
+    
+        // Handle window resize for neon lines canvas
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+        
+    });
+    // DOM Elements
+const chatbotBox = document.getElementById('chatbotBox');
+const chatbotContent = document.getElementById('chatbotContent');
+const userInput = document.getElementById('userInput');
+
+// Toggle Chatbot Visibility
+function toggleChatbot() {
+    const isHidden = chatbotBox.style.display === 'none' || chatbotBox.style.display === '';
+    chatbotBox.style.display = isHidden ? 'flex' : 'none';
+    if (isHidden) userInput.focus();
+}
+
+// Handle Enter Key Press
+function handleKeyPress(event) {
+    if (event.key === 'Enter') {
+        sendMessage();
+    }
+}
+
+// Send User Message
+function sendMessage() {
+    const message = userInput.value.trim();
+    if (message) {
+        appendMessage('user', message);
+        userInput.value = '';
+        setTimeout(() => botReply(message), 500);
+    }
+}
+
+// Append Message to Chat
+function appendMessage(sender, message) {
+    const messageElement = document.createElement('div');
+    messageElement.classList.add('chat-message', sender === 'user' ? 'user-message' : 'bot-message');
+    messageElement.innerHTML = message;
+    chatbotContent.appendChild(messageElement);
+    chatbotContent.scrollTop = chatbotContent.scrollHeight;
+}
+
+// Generate Bot Reply
+function botReply(userMessage) {
+    const replies = [
+        { keywords: ['hello', 'hi'], reply: "Hello! How can I assist you with placements today?" },
+        { keywords: ['job', 'opening', 'opportunity'], reply: "We provide job postings, matching, and application tracking. Visit <a href='jobs.html'>Jobs page</a>." },
+        { keywords: ['resume', 'cv'], reply: "We offer a professional resume builder. Check out <a href='resume.html'>Resume Builder</a>." },
+        { keywords: ['interview', 'mock'], reply: "Prepare with mock interviews. Visit <a href='interview.html'>Interview Scheduler</a>." },
+        { keywords: ['training', 'assessment', 'test'], reply: "Enhance skills with training programs. Visit <a href='training.html'>Training Page</a>." },
+        { keywords: ['database', 'student dbms', 'data'], reply: "Enhance your database. Visit <a href='sdms.html'>Student Dtabase Management System</a>." },
+        { keywords: ['notification', 'message', 'chat'], reply: "we offer instant messaging system to connect with people. Visit <a href='notification.html'>Messaging System</a>." },
+        { keywords: ['crm', 'company', 'relationship'], reply: "Enhance and manage your relationships with company. Visit <a href='crm.html'>here</a>." },
+        { keywords: ['internship'], reply: "Find internships tailored to you. Visit <a href='jobs.html'>Internship Page</a>." },
+        { keywords: ['event', 'workshop'], reply: "Stay updated with events. Visit <a href='events.html'>Events Page</a>." },
+        { keywords: ['contact', 'help'], reply: "Need assistance? Visit <a href='contact.html'>Contact Us</a>." },
+    ];
+
+    const lowercaseMessage = userMessage.toLowerCase();
+    const match = replies.find(({ keywords }) => keywords.some(keyword => lowercaseMessage.includes(keyword)));
+    const reply = match ? match.reply : "I'm sorry, I didn't understand that. Can you please rephrase?";
+    appendMessage('bot', reply);
+}
+
+
+    </script>
+</body>
+</html>
+

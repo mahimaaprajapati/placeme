@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill Assessment & Training Platform</title>
+    <style>
+        :root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --background-color: #f5f6fa;
+    --card-background: #ffffff;
+    --text-color: #2c3e50;
+    --border-color: #dcdde1;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.platform-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    margin-bottom: 20px;
+}
+
+nav {
+    display: flex;
+    gap: 10px;
+}
+
+.tab-btn {
+    padding: 10px 20px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.tab-btn.active {
+    background-color: var(--secondary-color);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.assessment-grid,
+.training-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.assessment-card,
+.training-card {
+    background-color: var(--card-background);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.assessment-details,
+.training-details {
+    margin: 15px 0;
+    color: #666;
+}
+
+.start-btn {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+.start-btn:hover {
+    background-color: #2980b9;
+}
+
+.progress-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.progress-card {
+    background-color: var(--card-background);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.progress-list {
+    margin-top: 15px;
+}
+
+.progress-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: var(--card-background);
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+}
+
+#modal-details {
+    margin: 20px 0;
+}
+#roadmap-container {
+            text-align: center;
+            margin: 20px;
+        }
+    
+        .roadmap-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff; /* Button color */
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+    
+        .roadmap-btn:hover {
+            background-color: #0056b3; /* Hover color */
+        }
+/* Responsive Design */
+@media (max-width: 768px) {
+    .platform-container {
+        padding: 10px;
+    }
+
+    nav {
+        flex-direction: column;
+    }
+
+    .assessment-grid,
+    .training-grid {
+        grid-template-columns: 1fr;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="platform-container">
+        <header>
+            <h1>Skill Assessment & Training Platform</h1>
+            <nav>
+                <button class="tab-btn active" data-tab="assessments">Assessments</button>
+                <button class="tab-btn" data-tab="training">Training</button>
+                <button class="tab-btn" data-tab="progress">My Progress</button>
+            </nav>
+        </header>
+
+        <main>
+            <!-- Assessments Tab -->
+            <section id="assessments" class="tab-content active">
+                <h2>Skill Assessments</h2>
+                <div class="assessment-grid">
+                    <div class="assessment-card">
+                        <h3>JavaScript Fundamentals</h3>
+                        <div class="assessment-details">
+                            <p>Duration: 30 minutes</p>
+                            <p>Questions: 20</p>
+                        </div>
+                        <button class="start-btn" data-assessment="javascript" 
+                                data-url="https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/">
+                            Start Assessment
+                        </button>
+                    </div>
+
+                    <div class="assessment-card">
+                        <h3>Python Programming</h3>
+                        <div class="assessment-details">
+                            <p>Duration: 45 minutes</p>
+                            <p>Questions: 25</p>
+                        </div>
+                        <button class="start-btn" data-assessment="python"
+                                data-url="https://www.freecodecamp.org/learn/scientific-computing-with-python/">
+                            Start Assessment
+                        </button>
+                    </div>
+
+                    <div class="assessment-card">
+                        <h3>Data Structures</h3>
+                        <div class="assessment-details">
+                            <p>Duration: 60 minutes</p>
+                            <p>Questions: 30</p>
+                        </div>
+                        <button class="start-btn" data-assessment="data-structures"
+                                data-url="https://www.freecodecamp.org/learn/coding-interview-prep/">
+                            Start Assessment
+                        </button>
+                    </div>
+
+                    <div class="assessment-card">
+                        <h3>Web Development Basics</h3>
+                        <div class="assessment-details">
+                            <p>Duration: 40 minutes</p>
+                            <p>Questions: 22</p>
+                        </div>
+                        <button class="start-btn" data-assessment="web-dev"
+                                data-url="https://www.freecodecamp.org/learn/responsive-web-design/">
+                            Start Assessment
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Training Tab -->
+            <section id="training" class="tab-content">
+                <h2>Skill-based Training</h2>
+                <div class="training-grid">
+                    <div class="training-card">
+                        <h3>Advanced JavaScript</h3>
+                        <div class="training-details">
+                            <p>Duration: 2 weeks</p>
+                            <p>Modules: 10</p>
+                        </div>
+                        <button class="start-btn" data-training="advanced-js">Start Training</button>
+                    </div>
+
+                    <div class="training-card">
+                        <h3>Machine Learning with Python</h3>
+                        <div class="training-details">
+                            <p>Duration: 4 weeks</p>
+                            <p>Modules: 12</p>
+                        </div>
+                        <button class="start-btn" data-training="ml-python">Start Training</button>
+                    </div>
+
+                    <div class="training-card">
+                        <h3>Full Stack Web Development</h3>
+                        <div class="training-details">
+                            <p>Duration: 8 weeks</p>
+                            <p>Modules: 20</p>
+                        </div>
+                        <button class="start-btn" data-training="full-stack">Start Training</button>
+                    </div>
+
+                    <div class="training-card">
+                        <h3>Data Science Fundamentals</h3>
+                        <div class="training-details">
+                            <p>Duration: 6 weeks</p>
+                            <p>Modules: 15</p>
+                        </div>
+                        <button class="start-btn" data-training="data-science">Start Training</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Progress Tab -->
+            <section id="progress" class="tab-content">
+                <h2>My Progress</h2>
+                <div class="progress-container">
+                    <div class="progress-card">
+                        <h3>Completed Assessments</h3>
+                        <div class="progress-list" id="completed-assessments">
+                            <!-- Dynamically populated -->
+                        </div>
+                    </div>
+                    <div class="progress-card">
+                        <h3>Training Progress</h3>
+                        <div class="progress-list" id="training-progress">
+                            <!-- Dynamically populated -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Modal -->
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <h2 id="modal-title"></h2>
+                <div id="modal-details"></div>
+                <button id="modal-action" class="start-btn">Begin</button>
+            </div>
+        </div>
+    </div>
+    <div id="roadmap-container">
+        <a href="roadmap.html" id="roadmap-button" class="roadmap-btn">View Roadmap</a>
+    </div>
+    
+   
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    // Tab Switching
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove active class from all buttons and contents
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+
+            // Add active class to clicked button and corresponding content
+            button.classList.add('active');
+            const tabId = button.getAttribute('data-tab');
+            document.getElementById(tabId).classList.add('active');
+        });
+    });
+
+    // Modal Functionality
+    const modal = document.getElementById('modal');
+    const closeBtn = document.querySelector('.close-btn');
+    const modalTitle = document.getElementById('modal-title');
+    const modalDetails = document.getElementById('modal-details');
+    const modalAction = document.getElementById('modal-action');
+
+    // Close modal when clicking the close button or outside the modal
+    closeBtn.addEventListener('click', closeModal);
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+
+    function closeModal() {
+        modal.style.display = 'none';
+    }
+
+    // Handle Start Assessment/Training buttons
+    const startButtons = document.querySelectorAll('.start-btn');
+    startButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const assessment = button.getAttribute('data-assessment');
+            const training = button.getAttribute('data-training');
+            const freecodecamp_url = button.getAttribute('data-url');
+
+            if (assessment) {
+                showAssessmentModal(assessment, freecodecamp_url);
+            } else if (training) {
+                showTrainingModal(training);
+            }
+        });
+    });
+
+    function showAssessmentModal(assessment, url) {
+        const assessmentDetails = getAssessmentDetails(assessment);
+        modalTitle.textContent = assessmentDetails.title;
+        modalDetails.innerHTML = `
+            <p>Duration: ${assessmentDetails.duration}</p>
+            <p>Number of questions: ${assessmentDetails.questions}</p>
+            <p>This assessment will redirect you to freeCodeCamp for completion.</p>
+        `;
+        modalAction.textContent = 'Begin Assessment';
+        modalAction.onclick = () => {
+            // Save progress before redirecting
+            saveProgress(assessment, 'assessment');
+            window.open(url, '_blank');
+            closeModal();
+        };
+        modal.style.display = 'block';
+    }
+
+    function showTrainingModal(training) {
+        const trainingDetails = getTrainingDetails(training);
+        modalTitle.textContent = trainingDetails.title;
+        modalDetails.innerHTML = `
+            <p>Duration: ${trainingDetails.duration}</p>
+            <p>Number of modules: ${trainingDetails.modules}</p>
+        `;
+        modalAction.textContent = 'Begin Training';
+        modalAction.onclick = () => {
+            saveProgress(training, 'training');
+            // Redirect to training content or show first module
+            closeModal();
+        };
+        modal.style.display = 'block';
+    }
+
+    // Helper functions to get assessment/training details
+    function getAssessmentDetails(assessment) {
+        const details = {
+            'javascript': {
+                title: 'JavaScript Fundamentals',
+                duration: '30 minutes',
+                questions: 20
+            },
+            'python': {
+                title: 'Python Programming',
+                duration: '45 minutes',
+                questions: 25
+            },
+            'data-structures': {
+                title: 'Data Structures',
+                duration: '60 minutes',
+                questions: 30
+            },
+            'web-dev': {
+                title: 'Web Development Basics',
+                duration: '40 minutes',
+                questions: 22
+            }
+        };
+        return details[assessment];
+    }
+
+    function getTrainingDetails(training) {
+        const details = {
+            'advanced-js': {
+                title: 'Advanced JavaScript',
+                duration: '2 weeks',
+                modules: 10
+            },
+            'ml-python': {
+                title: 'Machine Learning with Python',
+                duration: '4 weeks',
+                modules: 12
+            },
+            'full-stack': {
+                title: 'Full Stack Web Development',
+                duration: '8 weeks',
+                modules: 20
+            },
+            'data-science': {
+                title: 'Data Science Fundamentals',
+                duration: '6 weeks',
+                modules: 15
+            }
+        };
+        return details[training];
+    }
+
+    // Progress tracking
+    function saveProgress(item, type) {
+        const progress = JSON.parse(localStorage.getItem('progress') || '{}');
+        if (!progress[type]) {
+            progress[type] = [];
+        }
+        progress[type].push({
+            item: item,
+            startDate: new Date().toISOString(),
+            status: 'In Progress'
+        });
+        localStorage.setItem('progress', JSON.stringify(progress));
+        updateProgressDisplay();
+    }
+
+    function updateProgressDisplay() {
+        const progress = JSON.parse(localStorage.getItem('progress') || '{}');
+        
+        // Update completed assessments
+        const completedAssessments = document.getElementById('completed-assessments');
+        completedAssessments.innerHTML = '';
+        if (progress.assessment) {
+            progress.assessment.forEach(assessment => {
+                const details = getAssessmentDetails(assessment.item);
+                completedAssessments.innerHTML += `
+                    <div class="progress-item">
+                        <span>${details.title}</span>
+                        <span>${assessment.status}</span>
+                    </div>
+                `;
+            });
+        }
+
+        // Update training progress
+        const trainingProgress = document.getElementById('training-progress');
+        trainingProgress.innerHTML = '';
+        if (progress.training) {
+            progress.training.forEach(training => {
+                const details = getTrainingDetails(training.item);
+                trainingProgress.innerHTML += `
+                    <div class="progress-item">
+                        <span>${details.title}</span>
+                        <span>${training.status}</span>
+                    </div>
+                `;
+            });
+        }
+    }
+
+    // Initial progress display
+    updateProgressDisplay();
+});
+    </script>
+</body>
+</html>

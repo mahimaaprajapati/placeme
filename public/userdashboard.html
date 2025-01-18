@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <style>
+    body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa;
+}
+
+.dashboard {
+  display: flex;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: white;
+  border-right: 1px solid #ddd;
+  padding: 20px;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.profile-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.profile-name {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.profile-role {
+  font-size: 14px;
+  color: gray;
+}
+
+.menu button {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #f1f1f1;
+  border: none;
+  cursor: pointer;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.progress-bar {
+  margin-bottom: 10px;
+}
+
+.progress {
+  height: 8px;
+  background-color: #007bff;
+  border-radius: 4px;
+}
+
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="dashboard">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="profile">
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQH5sFjZPx1Yzi1b9_FpQzrxqgsjv2DPAp81Q&s"
+          alt="Profile"
+          class="profile-img"
+        />
+        <div>
+          <h2 class="profile-name">Mahimaa Prajapati</h2>
+          <p class="profile-role">Student</p>
+        </div>
+      </div>
+      <nav class="menu">
+        <button>Dashboard</button>
+        <button>Courses</button>
+        <button>Internships</button>
+        <button>Certifications</button>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="grid">
+        <div class="card">
+          <h3>Skills Progress</h3>
+          <div class="progress-bar">
+            <p>React.js - 85%</p>
+            <div class="progress" style="width: 85%;"></div>
+          </div>
+          <div class="progress-bar">
+            <p>Node.js - 70%</p>
+            <div class="progress" style="width: 70%;"></div>
+          </div>
+          <div class="progress-bar">
+            <p>Python - 60%</p>
+            <div class="progress" style="width: 60%;"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Learning Hours</h3>
+          <canvas id="lineChart"></canvas>
+        </div>
+
+        <div class="card">
+          <h3>Current Internship</h3>
+          <div>
+            <p>Frontend Developer</p>
+            <p>Tech Solutions Inc.</p>
+            <p>Duration: 3 months</p>
+            <div class="progress-bar">
+              <p>Progress - 75%</p>
+              <div class="progress" style="width: 75%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <h3>Recent Certifications</h3>
+          <p>Advanced React Development - June 15, 2023</p>
+          <p>Node.js Fundamentals - May 20, 2023</p>
+        </div>
+
+        <div class="card">
+          <h3>Upcoming Courses</h3>
+          <p>Advanced Python Programming - July 1, 2023</p>
+          <p>Cloud Computing Fundamentals - July 15, 2023</p>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+  const ctx = document.getElementById("lineChart").getContext("2d");
+  new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+      datasets: [
+        {
+          label: "Progress",
+          data: [20, 35, 45, 55, 65, 85],
+          borderColor: "#8884d8",
+          fill: false,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+      },
+    },
+  });
+});
+
+  </script>
+</body>
+</html>
