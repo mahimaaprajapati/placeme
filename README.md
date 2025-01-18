@@ -51,3 +51,50 @@ Follow these steps to set up the project locally:
 1. Clone the repository:  
    ```bash  
    git clone :https://github.com/mahimaaprajapati/placeme.git
+   
+2. Navigate to the project directory:
+```bash
+cd placement-cell-software
+```
+3. Install dependencies:
+```bash
+npm install  
+```
+4. Start the development server:
+```bash
+npm start
+```
+5. open your browser and vist:
+```bash
+http://localhost:3000  
+```
+🤝 Contribution
+Contributions are welcome! Here's how you can help:
+
+1.Fork the repository.
+2.Create a feature branch:
+```bash
+git checkout -b feature-name
+```
+3.Commit your changes:
+```
+git commit -m "Add your message here"
+```
+4.Push to the branch:
+```bash
+git push origin feature-name
+```
+5.Open a pull request.
+
+📧 Contact
+For questions or suggestions, feel free to reach out:
+
+Email: prajapatimahimaa@gmail.com
+GitHub: mahimaaprajapati
+
+Developed with ❤️ by Mahimaa Prajapati
+
+
+
+
+
